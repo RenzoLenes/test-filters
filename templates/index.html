@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PNG</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    
+</head>
+<body>
+    <h1>Upload your Image</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" >
+        <label for="filter">Choose a filter:</label>
+        <select name="filter" id="filter">
+            <option value="boxblur">Filtro Media</option>
+            <option value="median">Filtro Mediano</option>
+            <option value="laplacian">Filtro Laplaciano</option>
+        </select><br>
+        <input type="submit" value="Submit">
+    </form>
+
+        {% if error_message %}
+            <h1>{{ error_message }}</h1>
+        {% endif %}
+
+        {% if image_path1 %}
+            
+            <h1>Imagen Original</h1>
+            <img src="{{ image_path1 }}" alt="img_original" width="400px">
+            <h2>Imagen convertida</h2>
+            <img src="{{ image_path2 }}" alt="img_converted" width="400px">
+        {% endif %}
+    
+    
+</body>
+</html>
