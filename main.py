@@ -17,7 +17,7 @@ def upload():
     if file:
         try:
             original_image = Image.open(file)
-            original_image.save('static/img/original_image.png', format='PNG')
+            original_image.save('static/uploads/original_image.png', format='PNG')
         except Exception as e:
             error_message = f"Error: {str(e)}"
             return render_template("index.html", error_message=error_message)
@@ -29,8 +29,8 @@ def upload():
     if filtered_image is None:
         return render_template("index.html", error_message="Invalid filter selected.")
 
-    filtered_image.save('static/img/filter_image.png', format='PNG')
-    return render_template("index.html", image_path1='static/img/original_image.png', image_path2='static/img/filter_image.png')
+    filtered_image.save('static/uploads/filter_image.png', format='PNG')
+    return render_template("index.html", image_path1='static/uploads/original_image.png', image_path2='static/uploads/filter_image.png')
 
 def apply_filter(image, selected_filter):
     if selected_filter == "median":
@@ -41,6 +41,8 @@ def apply_filter(image, selected_filter):
         # Agrega aquí la lógica correspondiente para el filtro 'laplacian'
         pass
     return None
-
+@app.route("/about")
+def about():
+    return render_template("about.html")
 if __name__ == "__main__":
     app.run(debug=True)

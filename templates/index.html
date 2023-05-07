@@ -1,38 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to PNG</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    
+    <title>Filter Image</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <h1>Upload your Image</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" >
-        <label for="filter">Choose a filter:</label>
-        <select name="filter" id="filter">
-            <option value="boxblur">Filtro Media</option>
-            <option value="median">Filtro Mediano</option>
-            <option value="laplacian">Filtro Laplaciano</option>
-        </select><br>
-        <input type="submit" value="Submit">
-    </form>
-
-        {% if error_message %}
+    <header class="p-3 mb-3 border-bottom">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img
+                src="{{ url_for('static', filename='img/logo.png') }}"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://github.com/RenzoLenes/test-filters">GitHub</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('about')}}">About Us</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="page-content-wrapper">
+       
+        <div class="home-container">
+          <div class="carousel-desk">
+            <div id="carouselExampleIndicators" class="carousel slide">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                  aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                  aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                  aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="{{ url_for('static', filename='img/carousel-desk-1.jpg') }}" class="d-block" alt="">
+                </div>
+                <div class="carousel-item">
+                  <img src="{{ url_for('static', filename='img/carousel-desk-2.jpg') }}" class="d-block" alt="">
+                </div>
+                <div class="carousel-item">
+                  <img src="{{ url_for('static', filename='img/carousel-desk-3.jpg') }}" class="d-block" alt="...">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        {% block body %}
+        <div class="filter-application">
+          
+          <div class="filters-content">
+            <h1>Upload your Image</h1>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept="image/*">
+                <label for="filter">Choose a filter:</label>
+                <select name="filter" id="filter">
+                    <option value="boxblur">Filtro Media</option>
+                    <option value="median">Filtro Mediano</option>
+                    <option value="laplacian">Filtro Laplaciano</option>
+                </select><br>
+                <input type="submit" value="Submit">
+            </form>
+        
+            {% if error_message %}
             <h1>{{ error_message }}</h1>
-        {% endif %}
-
-        {% if image_path1 %}
-            
+            {% endif %}
+        
+            {% if image_path1 %}
+        
             <h1>Imagen Original</h1>
             <img src="{{ image_path1 }}" alt="img_original" width="400px">
             <h2>Imagen convertida</h2>
             <img src="{{ image_path2 }}" alt="img_converted" width="400px">
-        {% endif %}
+            {% endif %}
+        
+        
+          </div>
     
+        </div>
+        {% endblock %}
+      </div>
+
     
+
+
+    <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item"><a href="{{url_for('index')}}" class="nav-link px-2 text-body-secondary">Home</a></li>
+          <li class="nav-item"><a href="https://github.com/RenzoLenes/test-filters" class="nav-link px-2 text-body-secondary">GitHub</a></li>
+          <li class="nav-item"><a href="{{url_for('about')}}" class="nav-link px-2 text-body-secondary">About Us</a></li>
+        </ul>
+        <p class="text-center text-body-secondary">&copy; 2023 Filter</p>
+      </footer>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
