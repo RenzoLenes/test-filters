@@ -56,6 +56,24 @@ def filtro_laplaciano(imagen):
     imagen_resultante = Image.fromarray(resultado_reescalado)
 
     return imagen_resultante
+
+def filtro_sobel(imagen):
+    matriz = np.array(imagen.convert("L"), dtype=np.float32)
+    # Definimos la máscara del filtro 
+    mascara = np.array([[-1, -2, -1], 
+                        [0, 0, 0], 
+                        [1, 2, 1]])
+
+    # Aplicamos el filtro 
+    resultado = filtro_convolucion(matriz, mascara)
+
+    # Reescalamos el histograma de la matriz resultante
+    resultado_reescalado = reescalar_histograma(resultado)
+
+    # Convertir la matriz resultante reescalada en una imagen PIL
+    imagen_resultante = Image.fromarray(resultado_reescalado)
+
+    return imagen_resultante
 def filtro_convolucion(matriz, mascara):
     # Obtener el tamaño de la máscara
     # Como es una matriz cuadarada basta el primera valor de la tupla
@@ -113,11 +131,15 @@ def reescalar_histograma(histograma):
 
 def apply_filter(image, selected_filter):
     if selected_filter == "median":
+        image=image.convert("L")
         return image.filter(ImageFilter.MedianFilter())
     elif selected_filter == 'boxblur':
+        image=image.convert("L")
         return image.filter(ImageFilter.BoxBlur(5))
     elif selected_filter == 'laplacian':
         return filtro_laplaciano(image)
+    elif selected_filter == 'sobel':
+        return filtro_sobel(image)
     return None
 @app.route("/about")
 def about():
